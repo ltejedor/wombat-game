@@ -52,7 +52,7 @@ function setup() {
     bigSnowflake = new snowflake(width/2, height/2 - 100, 145, 245, rLong, rArmFir, rArmSec, rArmThi, arms);
 
     //make snowflakes
-    for(var i = 0; i < 250; i++){
+    for(var i = 0; i < 120; i++){
     	flakeX = random(width);
     	flakeY = random(height);
     	sSize = random(12, 50);
