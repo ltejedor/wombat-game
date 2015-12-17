@@ -1,8 +1,11 @@
 /*
-snowflake code inspired by STEAM COOKER Capstone Project - http://steamcooker.org
+Snowflake code inspired by STEAM COOKER Capstone Project - http://steamcooker.org
 
 Snowflake concept inspired by "Holiday Wrapping Paper" by Jain7th on Github.
 https://github.com/jain7th/Processing-Tree-and-Snowflake-Generator
+
+Feel free to play around with this code and see how it changes the card!
+Don't worry about breaking anything - you can always refresh the screen :)
 */
 
 
@@ -10,9 +13,18 @@ var snowflakes = [];
 var bigSnowflake;
 var bigSnowflakeRotation = 0;
 
-function setup() {
+function preload() {
+  holidaySound = loadSound('assets/Dan_Lerch_-_09_-_O_Tannenbaum.mp3');
+}
 
+function setup() {
+		frameRate(5);
+
+		//create canvas
      mainCanvas =  createCanvas(windowWidth, windowHeight);
+
+    //play background music
+    holidaySound.play();
 
     // center the snowflake drawing within the canvas
      rectMode( CENTER);
@@ -40,7 +52,7 @@ function setup() {
     bigSnowflake = new snowflake(width/2, height/2 - 100, 145, 245, rLong, rArmFir, rArmSec, rArmThi, arms);
 
     //make snowflakes
-    for(var i = 0; i < 525; i++){
+    for(var i = 0; i < 250; i++){
     	flakeX = random(width);
     	flakeY = random(height);
     	sSize = random(12, 50);
@@ -84,7 +96,7 @@ function draw() {
   //snowflakes fall
   for (i = 0; i < snowflakes.length; i++) {
   	//move snowflake down (falling) if it's higher than the ground)
-  	if(snowflakes[i].flakeY < height){
+  	if(snowflakes[i].flakeY < height - 10){
   		snowflakes[i].flakeY = snowflakes[i].flakeY + round(random(1, 7));
   	}
 
@@ -94,52 +106,54 @@ function draw() {
   }
 
 	text("Happy Holidays", width/2, height - 160);
-	text("Happy Coding", width/2, height - 120);
-	text("✦ ❦ Vidcode ✦", width/2, height - 40);
+	text("Happy Coding", width/2, height - 115);
+	text("✦ Vidcode ✦", width/2, height - 40);
 
 }
 
 var drawSnowflake = function(x, y, sSize, opacity, num, rLong, rArmFir, rArmSec, rArmThi, arms) {
 
-    push();
+  push();
 
-        // move to the x,y location to begin drawing
-         translate(x, y);
+    // move to the x,y location to begin drawing
+     translate(x, y);
 
-        //rotate big snowflake
-				if(num == "big"){
-					bigSnowflakeRotation = bigSnowflakeRotation + 0.1;
-					rotate(bigSnowflakeRotation);
-					console.log(bigSnowflakeRotation);
-				}
+    //rotate big snowflake
+		if(num == "big"){
+			bigSnowflakeRotation = bigSnowflakeRotation + 0.02;
+			rotate(bigSnowflakeRotation);
+		}
 
-         noFill();
+     noFill();
 
-        // choose a blue-green random color
-         stroke( random(100, 150),  random(50, 120),  random(150, 255), opacity);
+    // choose a blue-green random color
+     stroke( random(100, 150),  random(50, 120),  random(150, 255), opacity);
+     if(num == "big"){
+     	stroke(78, 17, 82);
+     }
 
-        // weight the snowflake stroke randomly based on its size
-         strokeWeight(sSize*0.02);
+    // weight the snowflake stroke randomly based on its size
+     strokeWeight(sSize*0.02);
 
 
-        // draw each of the arms of the snowflake
-        for (var i = 0; i < arms; i++) {
-             rotate(  PI /( arms / 2 ));
+    // draw each of the arms of the snowflake
+    for (var i = 0; i < arms; i++) {
+         rotate(  PI /( arms / 2 ));
 
-            // draw the long axis of the snowflake arm
-             line(0, 0-rLong, 0, 0);
+        // draw the long axis of the snowflake arm
+         line(0, 0-rLong, 0, 0);
 
-            //Top Arms Right
-             line(0, 0-rArmFir, 0 +  round(rArmFir*0.8), 0 -  round(rArmFir*1.8));
-             line(0, 0-rArmSec, 0 +  round(rArmSec*0.8), 0 -  round(rArmSec*1.8));
-             line(0, 0-rArmThi, 0 +  round(rArmThi*0.8), 0 -  round(rArmThi*1.8));
+        //Top Arms Right
+         line(0, 0-rArmFir, 0 +  round(rArmFir*0.8), 0 -  round(rArmFir*1.8));
+         line(0, 0-rArmSec, 0 +  round(rArmSec*0.8), 0 -  round(rArmSec*1.8));
+         line(0, 0-rArmThi, 0 +  round(rArmThi*0.8), 0 -  round(rArmThi*1.8));
 
-            //Top Arms Left
-             line(0, 0-rArmFir, 0 -  round(rArmFir*0.8), 0 -  round(rArmFir*1.8));
-             line(0, 0-rArmSec, 0 -  round(rArmSec*0.8), 0 -  round(rArmSec*1.8));
-             line(0, 0-rArmThi, 0 -  round(rArmThi*0.8), 0 -  round(rArmThi*1.8));
-        }
-    pop();
+        //Top Arms Left
+         line(0, 0-rArmFir, 0 -  round(rArmFir*0.8), 0 -  round(rArmFir*1.8));
+         line(0, 0-rArmSec, 0 -  round(rArmSec*0.8), 0 -  round(rArmSec*1.8));
+         line(0, 0-rArmThi, 0 -  round(rArmThi*0.8), 0 -  round(rArmThi*1.8));
+    }
+  pop();
 
 
 }
