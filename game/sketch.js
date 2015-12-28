@@ -1,5 +1,6 @@
 var wombat_x;
 var wombat_y;
+var wallCollision;
 
 function setup() {
   mainCanvas = createCanvas(windowWidth, windowHeight);
@@ -69,24 +70,23 @@ function draw() {
 function keyPressed() {
   if(!(wombatCollision())){
     if (keyCode === LEFT_ARROW) {
-      if(!(wombatCollision())){
+      if(wallCollision == false){
         //wombat goes left
         wombat_x = wombat_x - 12;
       }else{
         wombat_x = wombat_x + 12;
       }
     } else if (keyCode === RIGHT_ARROW) {
-      console.log(wombatCollision());
-        if(!(wombatCollision())){
+        if(wallCollision == false){
           //wombat goes right
           console.log('not hitting wall');
           wombat_x = wombat_x + 12;
-        }else{
+        }else if(wallCollision == true){
           console.log('hitting wall');
           wombat_x = wombat_x - 12;
       }
       }if (keyCode === UP_ARROW) {
-        if(!(wombatCollision())){
+        if(wallCollision == false){
           //wombat goes up
           wombat_y = wombat_y - 12;
         }
@@ -94,7 +94,7 @@ function keyPressed() {
           wombat_y = wombat_y + 12;
         }
     } else if (keyCode === DOWN_ARROW) {
-      if(!(wombatCollision())){
+      if(wallCollision == false){
         //wombat goes down
         wombat_y = wombat_y + 12;
       }
@@ -159,10 +159,18 @@ function wall(wall_x, wall_y, wall_width, wall_height) {
     //console.log('wombat right x - ' + wombat_x + w_radius);
     //console.log( walls[i].wall_x + ', ' + walls[i].wall_x + walls[i].wall_width);
     if((wombat_x + w_radius > walls[i].wall_x && wombat_x + w_radius  < walls[i].wall_x + walls[i].wall_width) && (wombat_y + w_radius > walls[i].wall_y && wombat_y + w_radius  < walls[i].wall_y + walls[i].wall_height)){
-      return true;
+      wallCollision = true;
+      break;
+    }
+    else if((wombat_x - w_radius > walls[i].wall_x && wombat_x - w_radius  < walls[i].wall_x + walls[i].wall_width) && (wombat_y - w_radius > walls[i].wall_y && wombat_y - w_radius  < walls[i].wall_y + walls[i].wall_height)){
+      wallCollision = true;
+      break;
+    }
+    else{
+      wallCollision = false;
     }
   }
-  return false;
+
 
  }
 
